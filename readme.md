@@ -8,7 +8,7 @@ To create your first object you need to define atleast 2 things
 // Create an object
 object Name {
     self(Name); // Initialize the self field.
-}
+} Name;
 ```
 2) Create an object initializer function
 ```c
@@ -30,7 +30,7 @@ Name instance init(Name)(&instance); // Last parentheses are arguments of object
 // Create an object
 object Name {
     self(Name); // Initialize the self field.
-}
+} Name;
 
 objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
     result->self = result; // Set value of self field.
