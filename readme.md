@@ -35,10 +35,10 @@ int main() {
     // Create and initialize the object instance
     obj(Cat) cat init(Cat)(&cat);
 
-    // Use the object instance
+    // Use the object
     cat.age = 6;
     cat.meow(cat.self);
-
+    
     return 0;
 }
 ```
