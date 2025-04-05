@@ -49,6 +49,8 @@ How to make your own object?
 ```c
 object(MyObject) {
     self(MyObject);
+    // here you can add fields like:
+    // int data1;
 };
 ```
 - Create object initialiser
@@ -62,3 +64,12 @@ objectsetup(MyObject)(objectsetup_result(MyObject)) {
 ```c
 obj(MyObject) instance init(MyObject)(&instance);
 ```
+
+- Adding a function to the object  
+  Add a function pointer as a field in your object
+     ```c
+     object(MyObject) {
+        self(MyObject);
+        objectfn_pointer(MyObject, func1, void); // Add this
+     }
+     ```
