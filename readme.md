@@ -42,3 +42,23 @@ int main() {
     return 0;
 }
 ```
+
+How to make your own object?
+
+- Create the object
+```c
+object(MyObject) {
+    self(MyObject);
+};
+```
+- Create object initialiser
+```c
+// Result is what the initialized object will have
+objectsetup(MyObject)(objectsetup_result(MyObject)) {
+    result->self = result; // result->self is instance pointer
+}
+```
+- Creating an object instance
+```c
+obj(MyObject) instance init(MyObject)(&instance);
+```
