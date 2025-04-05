@@ -1,6 +1,11 @@
 # CPLUS
 A simple C header making your life as a programmer easier.
-## string
+## string.h
+Requirements:  
+- oop.h  
+- <stdlib.h>  
+- <string.h>
+  
 **I) Create a new string and initialize it**
 ```c
 string text init(string)(&text, "Hello, world!");
