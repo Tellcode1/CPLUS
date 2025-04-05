@@ -26,7 +26,10 @@ string text init(string)(&text, "Hello, world!");
 printf("%i\n", text.len(text.self));
 ```
 
-## OOP
+## [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)  
+Requirements:
+  - Elecricity (optional)  
+
 **I) Creating your first object**  
 To create your first object you need to define atleast 2 things    
 1) Create an empty object
