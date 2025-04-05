@@ -51,7 +51,7 @@ int main() {
 object Name {
     self(Name); // Initialize the self field.
 
-    // Add a field;
+    // Add a field
     int myField;
 
     // Add a function entry;
