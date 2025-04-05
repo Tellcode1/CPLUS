@@ -1,8 +1,8 @@
 # CPLUS
 A simple C header making your life as a programmer easier.
-## string.h
+## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
 Requirements:  
-- oop.h  
+- [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
 - <stdlib.h>  
 - <string.h>
   
