@@ -1,5 +1,10 @@
 # CPLUS
-A simple C header making your life as a programmer easier.
+A simple C header making your life as a programmer easier.  
+
+**How to use?**  
+1. Copy all files from the project
+2. include [cplus.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus.h)
+
 ## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
 Requirements:  
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
