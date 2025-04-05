@@ -1,6 +1,6 @@
 # CPLUS
 A simple C header making your life as a programmer easier.
-### OOP
+## OOP
 **I) Creating your first object**  
 To create your first object you need to define atleast 2 things    
 1) Create an empty object
@@ -40,3 +40,45 @@ int main() {
     Name instance init(Name)(&instance); // Last parentheses are arguments of objectsetup
     return 0;
 }
+```
+
+**II) Adding fields and functions**  
+```c
+// Include the header
+#include "path/to/cplus.h"
+
+// Create an object
+object Name {
+    self(Name); // Initialize the self field.
+
+    // Add a field;
+    int myField;
+
+    // Add a function entry;
+    objectfn_pointer(Name, myFunction, void); // Replace void with the function type
+} Name;
+
+// Define the function
+objectfn(Name, myFunction, void)(Name self) { // Add more arguments if needed
+    printf("%i\n", self.myField);
+}
+objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
+    result->self = result; // Set value of self field.
+
+    // (Optional) define the default value
+    result->myField = 4;
+
+    // Link the function
+    objectfn_setup(result, Name, myFunction);
+}
+
+int main() {
+    Name instance init(Name)(&instance); // Last parentheses are arguments of objectsetup
+
+    // Using the instance
+    instance.myField += 2;
+    instance.myFunction(instance.self);
+
+    return 0;
+}
+```
