@@ -1,5 +1,26 @@
 # CPLUS
 A simple C header making your life as a programmer easier.
+## string
+**I) Create a new string and initialize it**
+```c
+string text init(string)(&text, "Hello, world!");
+```
+**II) Change the value**
+```c
+string text init(string)(&text, "Hello, world!");
+text.set(text.self, "laurum eum epsilon or whatever that fucking latin text was");
+```
+**III) Getting the value**
+```c
+string text init(string)(&text, "Hello, world!");
+printf(text.value);
+```
+**IV) Getting the lenght**
+```c
+string text init(string)(&text, "Hello, world!");
+printf("%i\n", text.len(text.self));
+```
+
 ## OOP
 **I) Creating your first object**  
 To create your first object you need to define atleast 2 things    
