@@ -7,3 +7,5 @@
 #include "cplus/string.h"
 
 #include "cplus/namespace.h"
+
+#include "cplus/array.h"

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string.h>
-#include <stdlib.h>
+#include "externals/malloc.h"
 
 #include "defines.h"
 #include "oop.h"
@@ -27,9 +26,23 @@ objectfn(string, len, u64)(string *self) {
 }
 
 objectfn(string, set, void)(string *self, char *value) {
-    self->value = (char*)malloc(strlen(value) + 1);
-    if (self->value) 
-        strcpy(self->value, value);
+    u64 lenght = 0;
+    while (true) {
+        if (self->value[lenght] == '\0')
+            break;
+        lenght++;
+    }
+    
+    self->value = (char*)malloc(lenght + 1);
+    if (self->value) {
+        u64 lenght2 = 0;
+        while (true) {
+            self->value[lenght2] = value[lenght2];
+            if (value[lenght2] == '\0')
+                break;
+            lenght2++;
+        }
+    }
 }
 
 objectfn(string, count_char, u64)(string *self, char ch) {
@@ -47,9 +60,23 @@ objectfn(string, count_char, u64)(string *self, char ch) {
 objectsetup(string)(string *result, char *value) {
     result->self = result;
 
-    result->value = (char*)malloc(strlen(value) + 1);
-    if (result->value) 
-        strcpy(result->value, value);
+    u64 lenght = 0;
+    while (true) {
+        if (value[lenght] == '\0')
+            break;
+        lenght++;
+    }
+
+    result->value = (char*)malloc(lenght + 1);
+    if (result->value) {
+        u64 lenght2 = 0;
+        while (true) {
+            result->value[lenght2] = value[lenght2];
+            if (value[lenght2] == '\0')
+                break;
+            lenght2++;
+        }
+    }
 
     objectfn_setup(result, string, len);
     objectfn_setup(result, string, set);
