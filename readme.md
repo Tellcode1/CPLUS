@@ -323,8 +323,7 @@ int main() {
 ## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
 Requirements:  
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
-- <stdlib.h>  
-- <string.h>
+- <stdlib.h> or malloc definition included into [malloc.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/externals/malloc.h)
   
 **I) Create a new string and initialize it**
 ```c
