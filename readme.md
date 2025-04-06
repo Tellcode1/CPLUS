@@ -95,6 +95,57 @@ int main() {
 ## [namespace.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/namespace.h)
 Requirements:
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
+  
+**Note: Objects in namespaces require additional setup**  
+```c
+#include "../inc/cplus.h"
+#include <stdio.h>
+
+// Create the object
+object Object {
+    self(Object); // Initialise 'self' field
+    int field; // Initialise 'field' field
+    objectfn_pointer(Object, changeField, void); // Add function pointer
+} Object;
+
+// Define the function
+objectfn(Object, changeField, void)(Object self, int newField) {
+    self.field = newField;
+}
+
+// Define what values has initialised object
+objectsetup(Object)(Object *result, int field) {
+    result->self = result; // Add this or 'self' won't work
+    result->field = field; // Initialise 'field' value
+    objectfn_setup(result, Object, changeField); // Link function
+}
+
+// Create a namespace
+namespace NAMESPACE {
+    Object obj; // Object as a field
+} NAMESPACE;
+
+// Create the namespace for use
+namespace_create(NAMESPACE, ns) {
+    .obj = 0 // Placeholder value of 0
+};
+
+int main() {
+    // Initialise the object instance inside of namespace ns
+    init(Object)(&ns.obj, 4);
+
+    // Operations using the object instance
+    printf("%i\n", ns.obj.field);
+    
+    ns.obj.changeField(ns.obj.self, 5);
+    printf("%i\n", ns.obj.field);
+    
+    ns.obj.field--;
+    printf("%i\n", ns.obj.field);
+    
+    return 0;
+}
+```
 
 **I) Creating a namespace, adding fields and functions**
 ```c
