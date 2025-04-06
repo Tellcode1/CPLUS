@@ -5,3 +5,5 @@
 #include "cplus/oop.h"
 
 #include "cplus/string.h"
+
+#include "cplus/namespace.h"
