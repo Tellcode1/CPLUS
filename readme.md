@@ -1,5 +1,6 @@
 # CPLUS
 A simple C header making your life as a programmer easier.  
+Independant architecture - easy to port for embedded systems / operating system kernels  
 
 **How to use?**  
 1. Copy all files from the project
