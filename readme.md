@@ -5,6 +5,81 @@ A simple C header making your life as a programmer easier.
 1. Copy all files from the project
 2. include [cplus.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus.h)
 
+## master example
+```c
+#include "cplus.h"
+#include <stdio.h>
+
+object point {
+    self(point);
+
+    string name;
+    float x;
+    float y;
+
+    objectfn_pointer(point, shift, void)(selftype point *self, float x, float y);
+    objectfn_pointer(point, shift_by, void)(selftype point *self, float x, float y);
+    objectfn_pointer(point, scale, void)(selftype point *self, float scalar);
+    objectfn_pointer(point, print, void)(selftype point *self);
+
+} point;
+        objectfn(point, shift, void)(point *self, float x, float y) {
+            self->x = x;
+            self->y = y;
+        }
+
+        objectfn(point, shift_by, void)(point *self, float x, float y) {
+            self->x += x;
+            self->y += y;
+        }
+
+        objectfn(point, scale, void)(point *self, float scalar) {
+            self->x *= scalar;
+            self->y *= scalar;
+        }
+
+        objectfn(point, print, void)(point *self) {
+            printf("%s: (%f, %f)\n", self->name.value, self->x, self->y);
+        }
+
+        objectsetup(point)(point *result, char *name, float x, float y) {
+            result->self = result;
+
+            init(string)(&result->name, name);
+            result->x = x;
+            result->y = y;
+
+            objectfn_setup(result, point, shift);
+            objectfn_setup(result, point, shift_by);
+            objectfn_setup(result, point, scale);
+            objectfn_setup(result, point, print);
+        }
+
+namespace POINT_UTILS {
+    namespacefn_pointer(add, point);
+} POINT_UTILS;
+    namespacefn(POINT_UTILS, add, point)(char *name, point a, point b) {
+        point result init(point)(&result, name, a.x + b.x, a.y + b.y);
+        return result;
+    }
+    namespace_create(POINT_UTILS, point_utils) {
+        .add = namespacefn_name(POINT_UTILS, add)
+    };
+
+int main() {
+    point a init(point)(&a, "Point A", 3, 2);
+    a.print(a.self);
+
+    point b init(point)(&b, "Point B", 4, 1);
+    b.print(b.self);
+
+    point c = point_utils.add("Point C", a, b);
+    c.print(c.self);
+
+    return 0;
+}
+```
+
 ## [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)  
 Requirements:
   - Elecricity (optional)  
