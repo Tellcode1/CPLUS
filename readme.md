@@ -92,6 +92,74 @@ int main() {
 }
 ```
 
+**III) Inheritance**
+```c
+#include "../inc/cplus.h"
+#include <stdio.h>
+
+// Create animal object
+// No explanation needed here cuz we already know how to do that
+
+object Animal {
+    self(Animal);
+    int age;
+    objectfn_pointer(Animal, info, void);
+} Animal;
+        objectfn(Animal, info, void)(Animal self) {
+            printf("Im an Animal of age %i\n", self.age);
+        }
+        objectsetup(Animal)(Animal *result) {
+            result->self = result;
+            result->age = 0;
+            objectfn_setup(result, Animal, info);
+        }
+
+// Create object dog
+object Dog {
+    self(Dog);
+    inherit(Animal); // It inherits from animal
+    objectfn_pointer(Dog, bark, void);
+} Dog;
+        objectfn(Dog, bark, void)(Dog self) {
+            // Example of accessing inherited fields
+            printf("Woof, im %i\n", self.inherited->age);
+        }
+
+        // Overwrite info function
+        // Just create a function for Dog with any name that isnt conflicting with already defined fields
+        objectfn(Dog, inherited_info, void)(Animal self) {
+            printf("Im a Dog of age %i\n", self.age);
+        }
+
+        objectsetup(Dog)(Dog *result) {
+            // Setup object
+            result->self = result;
+            objectfn_setup(result, Dog, bark);
+
+            // Setup inheritance
+            // result->inherited is a pointer
+            inherit_setup(result->inherited, Animal)(result->inherited);
+
+            // Overwrite info function
+            result->inherited->info = objectfn_name(Dog, inherited_info);
+        }
+
+int main() {
+    Animal animal init(Animal)(&animal);
+    animal.age = 4;
+    animal.info(&animal.self);
+
+    Dog dog init(Dog)(&dog);
+    // Accessing inherited fields
+    dog.inherited->age = 2;
+
+    dog.bark(dog.self);
+
+    // Accessing Inherited functions
+    dog.inherited->info(dog.inherited->self);
+    return 0;
+}
+```
 ## [namespace.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/namespace.h)
 Requirements:
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
