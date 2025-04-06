@@ -64,12 +64,12 @@ object Name {
     int myField;
 
     // Add a function entry;
-    objectfn_pointer(Name, myFunction, void); // Replace void with the function type
+    objectfn_pointer(Name, myFunction, void)(selftype Name *self); // Replace void with the function type
 } Name;
 
 // Define the function
-objectfn(Name, myFunction, void)(Name self) { // Add more arguments if needed
-    printf("%i\n", self.myField);
+objectfn(Name, myFunction, void)(Name *self) { // Add more arguments if needed
+    printf("%i\n", self->myField);
 }
 objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
     result->self = result; // Set value of self field.
@@ -79,6 +79,7 @@ objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
 
     // Link the function
     objectfn_setup(result, Name, myFunction);
+
 }
 
 int main() {
