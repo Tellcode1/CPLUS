@@ -104,10 +104,10 @@ int main() {
 object Animal {
     self(Animal);
     int age;
-    objectfn_pointer(Animal, info, void);
+    objectfn_pointer(Animal, info, void)(selftype Animal *self);
 } Animal;
-        objectfn(Animal, info, void)(Animal self) {
-            printf("Im an Animal of age %i\n", self.age);
+        objectfn(Animal, info, void)(Animal *self) {
+            printf("Im an Animal of age %i\n", self->age);
         }
         objectsetup(Animal)(Animal *result) {
             result->self = result;
@@ -119,17 +119,17 @@ object Animal {
 object Dog {
     self(Dog);
     inherit(Animal); // It inherits from animal
-    objectfn_pointer(Dog, bark, void);
+    objectfn_pointer(Dog, bark, void)(selftype Dog *self);
 } Dog;
-        objectfn(Dog, bark, void)(Dog self) {
+        objectfn(Dog, bark, void)(Dog *self) {
             // Example of accessing inherited fields
-            printf("Woof, im %i\n", self.inherited->age);
+            printf("Woof, im %i\n", self->inherited->age);
         }
 
         // Overwrite info function
         // Just create a function for Dog with any name that isnt conflicting with already defined fields
-        objectfn(Dog, inherited_info, void)(Animal self) {
-            printf("Im a Dog of age %i\n", self.age);
+        objectfn(Dog, inherited_info, void)(Animal *self) {
+            printf("Im a Dog of age %i\n", self->age);
         }
 
         objectsetup(Dog)(Dog *result) {
@@ -148,7 +148,7 @@ object Dog {
 int main() {
     Animal animal init(Animal)(&animal);
     animal.age = 4;
-    animal.info(&animal.self);
+    animal.info(animal.self);
 
     Dog dog init(Dog)(&dog);
     // Accessing inherited fields
