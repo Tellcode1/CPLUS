@@ -7,7 +7,7 @@ A simple C header making your life as a programmer easier.
 
 ## master example
 ```c
-#include "cplus.h"
+#include "path/to/cplus.h"
 #include <stdio.h>
 
 object point {
@@ -68,9 +68,11 @@ namespace POINT_UTILS {
 
 int main() {
     point a init(point)(&a, "Point A", 3, 2);
+    a.shift_by(a.self, -1, 1);
     a.print(a.self);
 
     point b init(point)(&b, "Point B", 4, 1);
+    b.scale(b.self, 2);
     b.print(b.self);
 
     point c = point_utils.add("Point C", a, b);
