@@ -7,3 +7,6 @@
 #define objectsetup(objname) objname *objname##_ObjectSetupFunction
 #define init(objname) ; objname##_ObjectSetupFunction
 #define self(objname) struct objname *self
+#define inherit(objname) struct objname *inherited
+#define inherit_setup(instance, objectfrom) init(objectfrom)
+#define objectfn_name(objname, fnname) objname##_##fnname
