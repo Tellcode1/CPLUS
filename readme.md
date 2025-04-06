@@ -80,6 +80,7 @@ int main() {
 ```c
 // Include the header
 #include "path/to/cplus.h"
+#include <stdio.h>
 
 // Create an object
 object Name {
