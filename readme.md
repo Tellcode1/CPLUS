@@ -345,3 +345,9 @@ printf(text.value);
 string text init(string)(&text, "Hello, world!");
 printf("%i\n", text.len(text.self));
 ```
+
+**V) Counting a specific char**
+```c
+string text init(string)(&text, "Hello, world!");
+printf("%llu\n", text.count_char(text.self, 'o'));
+```
