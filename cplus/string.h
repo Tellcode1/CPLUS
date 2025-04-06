@@ -12,8 +12,8 @@ object string {
     self(string);
     char *value;
 
-    objectfn_pointer(string, len, u64);
-    objectfn_pointer(string, set, void);
+    objectfn_pointer(string, len, u64)(selftype string);
+    objectfn_pointer(string, set, void)(selftype string, char *value);
 } string;
 
 objectfn(string, len, u64)(string self) {
