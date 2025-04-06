@@ -5,32 +5,6 @@ A simple C header making your life as a programmer easier.
 1. Copy all files from the project
 2. include [cplus.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus.h)
 
-## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
-Requirements:  
-- [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
-- <stdlib.h>  
-- <string.h>
-  
-**I) Create a new string and initialize it**
-```c
-string text init(string)(&text, "Hello, world!");
-```
-**II) Change the value**
-```c
-string text init(string)(&text, "Hello, world!");
-text.set(text.self, "laurum eum epsilon or whatever that fucking latin text was");
-```
-**III) Getting the value**
-```c
-string text init(string)(&text, "Hello, world!");
-printf(text.value);
-```
-**IV) Getting the lenght**
-```c
-string text init(string)(&text, "Hello, world!");
-printf("%i\n", text.len(text.self));
-```
-
 ## [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)  
 Requirements:
   - Elecricity (optional)  
@@ -116,4 +90,30 @@ int main() {
 
     return 0;
 }
+```
+
+## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
+Requirements:  
+- [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
+- <stdlib.h>  
+- <string.h>
+  
+**I) Create a new string and initialize it**
+```c
+string text init(string)(&text, "Hello, world!");
+```
+**II) Change the value**
+```c
+string text init(string)(&text, "Hello, world!");
+text.set(text.self, "laurum eum epsilon or whatever that fucking latin text was");
+```
+**III) Getting the value**
+```c
+string text init(string)(&text, "Hello, world!");
+printf(text.value);
+```
+**IV) Getting the lenght**
+```c
+string text init(string)(&text, "Hello, world!");
+printf("%i\n", text.len(text.self));
 ```
