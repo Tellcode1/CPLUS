@@ -1,5 +1,5 @@
 #pragma once
 
-// Replace #include <stdlib.c> with custom malloc definition if needed.
+// Replace #include <stdlib.h> with custom malloc definition if needed.
 
 #include <stdlib.h>
