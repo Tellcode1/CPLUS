@@ -112,7 +112,7 @@ namespacefn(math_namespace, add, int)(int a, int b) {
     return a + b;
 }
 
-// Create the namespace
+// Define the math namespace for use
 namespace_create(math_namespace, math) {
     .pi = 3.14, // Setup value for 'pi'
     .add = namespacefn_name(math_namespace, add) // Link 'add' function
