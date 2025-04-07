@@ -170,7 +170,35 @@ int main() {
 ## [namespace.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/namespace.h)
 Requirements:
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
-  
+
+**I) Creating a namespace, adding fields and functions**
+```c
+#include "../inc/cplus.h"
+#include <stdio.h>
+
+// Create the math namespace
+namespace math_namespace {
+    float pi; // Add field 'pi'
+    namespacefn_pointer(add, int); // Add function 'add'
+} math_namespace;
+
+// Define the function add
+namespacefn(math_namespace, add, int)(int a, int b) {
+    return a + b;
+}
+
+// Define the math namespace for use
+namespace_create(math_namespace, math) {
+    .pi = 3.14, // Setup value for 'pi'
+    .add = namespacefn_name(math_namespace, add) // Link 'add' function
+};
+
+int main() {
+    printf("%i\n", math.add(2, 3)); // Use the namespace
+    return 0;
+}
+```
+
 **Note: Objects in namespaces require additional setup**  
 ```c
 #include "../inc/cplus.h"
@@ -222,33 +250,6 @@ int main() {
 }
 ```
 
-**I) Creating a namespace, adding fields and functions**
-```c
-#include "../inc/cplus.h"
-#include <stdio.h>
-
-// Create the math namespace
-namespace math_namespace {
-    float pi; // Add field 'pi'
-    namespacefn_pointer(add, int); // Add function 'add'
-} math_namespace;
-
-// Define the function add
-namespacefn(math_namespace, add, int)(int a, int b) {
-    return a + b;
-}
-
-// Define the math namespace for use
-namespace_create(math_namespace, math) {
-    .pi = 3.14, // Setup value for 'pi'
-    .add = namespacefn_name(math_namespace, add) // Link 'add' function
-};
-
-int main() {
-    printf("%i\n", math.add(2, 3)); // Use the namespace
-    return 0;
-}
-```
 ## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
 Requirements:  
 - [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
