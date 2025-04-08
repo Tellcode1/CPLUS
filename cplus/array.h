@@ -1,7 +1,5 @@
 #include "oop.h"
 
-#include <stdio.h>
-
 #include "externals/malloc.h"
 #include "externals/memcpy.h"
 #include "externals/memcmp.h"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 #include "cplus/defines.h"
 
 #include "cplus/oop.h"
