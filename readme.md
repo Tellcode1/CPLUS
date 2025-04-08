@@ -141,9 +141,11 @@ Understanding `objectfn_pointer`:
 
 ```c
 // objectfn_pointer usage:
-// (use in the same object as 'Object Name')
+// (use in ObjectName)
+// Use when you wanna add an objectfn
+// Add more arguments if needed
 
-objectfn_pointer([Object Name], [Function Name], [Return Type])(selftype [Object Name] *self, [More Arguments of the Function]);
+objectfn_pointer(ObjectName, FunctionName, ReturnType)(selftype ObjectName *self);
 ```
 
 - What is `selftype`?
