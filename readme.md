@@ -1,46 +1,47 @@
 # CPLUS - A C library implementing higher level abstraction
 
-**Documentation under construction**
+**Documentation under construction**  
 
 This project aims to supply its users with high level abstractions, such as OOP, string, namespaces and arrays.  
 The library is easy to port for embedded systems as all you need to do is provide definitions for malloc and free in [malloc.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/externals/malloc.h)
 
-
 ---
+
 # Table of contents
 
 1. Object Oriented Programming  
-	‎ 1. [Defining objects](#defining-objects)  
-	‎ 2. Adding fields  
-	‎ 3. Adding functions  
-	‎ 4. Inheritance  
-	‎ 5. Creating instances  
+   ‎ 1. [Defining objects](#defining-objects)  
+   ‎ 2. Adding fields  
+   ‎ 3. Adding functions  
+   ‎ 4. Inheritance  
+   ‎ 5. Creating instances  
 2. Namespaces  
-	‎ 1. Creating namespace base  
-	‎ 2. Adding fields  
-	‎ 3. Adding functions  
-	‎ 4. Adding instances of objects  
-	‎ 5. **Namespace initializer, `namespace_create`**  
-	‎ 6. Using the namespace  
+   ‎ 1. Creating namespace base  
+   ‎ 2. Adding fields  
+   ‎ 3. Adding functions  
+   ‎ 4. Adding instances of objects  
+   ‎ 5. **Namespace initializer, `namespace_create`**  
+   ‎ 6. Using the namespace  
 3. Strings  
-	‎ 1. Initializing a string  
-	‎ 2. Accessing string value  
-	‎ 3. `string.len()`  
-	‎ 4. `string.set()`  
-	‎ 5. `string.count_char()`  
+   ‎ 1. Initializing a string  
+   ‎ 2. Accessing string value  
+   ‎ 3. `string.len()`  
+   ‎ 4. `string.set()`  
+   ‎ 5. `string.count_char()`  
 4. Arrays  
-	‎ 1. Initializing an array  
-	‎ 2. Iterating trough an array  
-	‎ 3. Getting the value at an index  
-	‎ 4. `array.set()`  
-	‎ 5. `array.append()`  
-	‎ 6. `array.find()`  
-	‎ 7. `array.insert()`  
-	‎ 8. `array.insert_elements()`  
-	‎ 9. `array.subarr()`  
-	‎ 10. `array.remove()`  
-
+   ‎ 1. Initializing an array  
+   ‎ 2. Iterating trough an array  
+   ‎ 3. Getting the value at an index  
+   ‎ 4. `array.set()`  
+   ‎ 5. `array.len()`  
+   ‎ 5. `array.append()`  
+   ‎ 6. `array.find()`  
+   ‎ 7. `array.insert()`  
+   ‎ 8. `array.insert_elements()`  
+   ‎ 9. `array.subarr()`  
+   ‎ 10. `array.remove()`  
 ---
+
 # Object Oriented Programming
 
 ## Defining objects
@@ -73,9 +74,10 @@ objectsetup([Object Name])([Object Name] *result, [Additional Arguments if neede
 	setupself(result);
 }
 ```
+
 ## Adding fields
 
-**Note: you can only assign default values in `objectsetup`**
+**Note: you can only assign default values in `objectsetup`**  
 You add a field how you would a variable:
 
 ```c
@@ -101,8 +103,8 @@ objectsetup(Name)(Name *result) {
 
 ## Adding functions
 
-**Note: if you don't link your functions properly in `objectsetup` it might lead to unexpected behaviour**
-To add a function you need to set up a pointer:
+**Note: if you don't link your functions properly in `objectsetup` it might lead to unexpected behaviour**  
+To add a function you need to set up a pointer:  
 
 ```c
 // replace 'Name' with your objects name
@@ -143,12 +145,12 @@ Understanding `objectfn_pointer`:
 objectfn_pointer([Object Name], [Function Name], [Return Type])(selftype [Object Name] *self, [More Arguments of the Function]);
 ```
 
-- What is `selftype`?
-- `selftype` is a requirement when referencing object as a type inside of the objects definition. For example:
+- What is `selftype`?  
+- `selftype` is a requirement when referencing object as a type inside of the objects definition. For example:  
 
 ```c
 object SomeObject {
-	self(SomeObject);	
+	self(SomeObject);
 
 	// Here selftype is needed as we are in SomeObjects definition
 	objectfn_pointer(SomeObject, SomeFunction, void)(selftype SomeObject *self);
@@ -189,6 +191,7 @@ objectsetup([Object Name])([Object Name] *result) {
 }
 
 ```
+
 ## Inheritance
 
 **Note: inheritance is a pointer to an instance of inherited class, access it using the `inherited` field**
@@ -206,7 +209,7 @@ object Fruit {
 } Fruit;
 
 // Setup 'Fruit'
-objectsetup(Fruit))(Fruit *result) {
+objectsetup(Fruit)(Fruit *result) {
 	setupself(Fruit);
 }
 
@@ -221,7 +224,7 @@ object Banana {
 } Banana;
 
 // Setup 'Banana'
-objectsetup(Banana))(Banana *result) {
+objectsetup(Banana)(Banana *result) {
 	setupself(Banana);
 
 	// Initialize object from which we are inheriting.

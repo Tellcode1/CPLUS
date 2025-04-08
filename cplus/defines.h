@@ -1,5 +1,6 @@
 #pragma once
 
+#define bool short int
 #define i32 long int
 #define i64 long long int
 

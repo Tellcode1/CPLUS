@@ -23,6 +23,7 @@ object array {
     size_t size;
 
     objectfn_pointer(array, set, void)(selftype array *self, void *data, size_t size);
+    objectfn_pointer(array, len, int)(selftype array *self);
     objectfn_pointer(array, append, void)(selftype array *self, void* element);
     objectfn_pointer(array, find, selftype array)(selftype array *self, void* element);
     objectfn_pointer(array, insert, void)(selftype array *self, void* element, int index);
@@ -44,6 +45,15 @@ objectfn(array, set, void)(array *self, void *data, size_t size) {
     self->data = (void*)malloc(size);
     self->size = size;
     my_memcpy(self->data, data, size);
+}
+
+objectfn(array, len, int)(selftype array *self) {
+    int result = 0;
+
+    foreachptr(self, i)
+        result++;
+
+    return result;
 }
 
 objectfn(array, append, void)(array *self, void* element) {
@@ -126,8 +136,8 @@ objectfn(array, subarr, array)(selftype array *self, int start, int finish, int 
             result.append(result.self, a);
         }
     } else {
-        for (int i = start; i > finish; i += skip) {
-            void* a = (char*)self->data + i * self->element_size;
+        for (int i = start; i < finish; i += -skip) {
+            void* a = (char*)self->data + (finish - (i - start) + skip) * self->element_size;
             result.append(result.self, a);
         }
     }
@@ -173,6 +183,7 @@ objectsetup(array)(array *result, size_t type_size) {
     result->size = 0;
 
     objectfn_setup(result, array, set);
+    objectfn_setup(result, array, len);
     objectfn_setup(result, array, append);
     objectfn_setup(result, array, find);
     objectfn_setup(result, array, insert);
