@@ -65,11 +65,11 @@ objectsetup(Name)(Name *result) {
 
 Understanding `objectsetup`:
 
-```c
+```cpp
 // This function is called on each instance initialized of [Object Name]
 // In this function all the 'magic' behind OOP happens
 
-objectsetup([Object Name])([Object Name] *result, [Additional Arguments if needed]) {
+objectsetup(/* Object Name Here */)([Object Name] *result, [Additional Arguments if needed]) {
 	// Set self to its correct value
 	setupself(result);
 }
