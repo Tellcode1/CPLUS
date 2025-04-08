@@ -1,359 +1,230 @@
-# CPLUS
-A simple C header that implements:  
-- Object oriented programming  
-- String type with its functions, easy to set new value (allocating the memory)  
-- namespace system
-- array system (inspired by std::vector from c++, not finished yet)  
 
-Independant architecture - easy to port for embedded systems / operating system kernels  
+**Documentation under construction**
 
-**How to use?**  
-1. Copy all files from the project
-2. include [cplus.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus.h)
+This project aims to supply its users with high level abstractions, such as OOP, string, namespaces and arrays.  
+The library is easy to port for embedded systems as all you need to do is provide definitions for malloc and free in [malloc.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/externals/malloc.h)
 
-## [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)  
-Requirements:
-  - Elecricity (optional)  
 
-**I) Creating your first object**  
-To create your first object you need to define atleast 2 things    
-1) Create an empty object
+---
+# Table of contents
+
+1. Object Oriented Programming
+	1. Defining objects [Defining objects](#defining-objects)
+	2. Adding fields
+	3. Adding functions
+	4. Inheritance
+	5. Creating instances
+2. Namespaces
+	1. Creating namespace base
+	2. Adding fields
+	3. Adding functions
+	4. Adding instances of objects
+	5. **Namespace initializer, `namespace_create`**
+	6. Using the namespace
+3. Strings
+	1. Initializing a string
+	2. Accessing string value
+	3. `string.len()`
+	4. `string.set()`
+	5. `string.count_char()`
+4. Arrays
+	1. Initializing an array
+	2. Iterating trough an array
+	3. Getting the value at an index
+	4. `array.set()`
+	5. `array.append()`
+	6. `array.find()`
+	7. `array.insert()`
+	8. `array.insert_elements()`
+	9. `array.subarr()`
+	10. `array.remove()`
+
+---
+# Object Oriented Programming
+
+## Defining objects
+
+This is how you define an object:
+
 ```c
-// Create an object
+// replace 'Name' with your objects name
+
 object Name {
-    self(Name); // Initialize the self field.
-} Name;
-```
-2) Create an object initializer function
-```c
-// Name is the same as from previous snippet and requires the previous code
-objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
-    result->self = result; // Set value of self field.
-}
-```
-3) Creating an instance
-```c
-// Create and initialize an object
-Name instance init(Name)(&instance); // Last parentheses are arguments of objectsetup
-```
-4) Final code
-```c
-// Include the header
-#include "path/to/cplus.h"
-
-// Create an object
-object Name {
-    self(Name); // Initialize the self field.
-} Name;
-
-objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
-    result->self = result; // Set value of self field.
-}
-
-int main() {
-    Name instance init(Name)(&instance); // Last parentheses are arguments of objectsetup
-    return 0;
-}
-```
-
-**II) Adding fields and functions**  
-```c
-// Include the header
-#include "path/to/cplus.h"
-#include <stdio.h>
-
-// Create an object
-object Name {
-    self(Name); // Initialize the self field.
-
-    // Add a field
-    int myField;
-
-    // Add a function entry;
-    objectfn_pointer(Name, myFunction, void)(selftype Name *self); // Replace void with the function type
+	// Initialize itself
+	self(Name);
 } Name;
 
-// Define the function
-objectfn(Name, myFunction, void)(Name *self) { // Add more arguments if needed
-    printf("%i\n", self->myField);
-}
-objectsetup(Name)(Name* result) { // Add aditional arguments if needed.
-    result->self = result; // Set value of self field.
-
-    // (Optional) define the default value
-    result->myField = 4;
-
-    // Link the function
-    objectfn_setup(result, Name, myFunction);
-
-}
-
-int main() {
-    Name instance init(Name)(&instance); // Last parentheses are arguments of objectsetup
-
-    // Using the instance
-    instance.myField += 2;
-    instance.myFunction(instance.self);
-
-    return 0;
+// This function is called on each instance initialized of 'Name'
+objectsetup(Name)(Name *result) {
+	// Set self to its correct value
+	setupself(result);
 }
 ```
 
-**III) Inheritance**
+Understanding `objectsetup`:
+
 ```c
-#include "../inc/cplus.h"
-#include <stdio.h>
+// This function is called on each instance initialized of [Object Name]
+// In this function all the 'magic' behind OOP happens
 
-// Create animal object
-// No explanation needed here cuz we already know how to do that
-
-object Animal {
-    self(Animal);
-    int age;
-    objectfn_pointer(Animal, info, void)(selftype Animal *self);
-} Animal;
-        objectfn(Animal, info, void)(Animal *self) {
-            printf("Im an Animal of age %i\n", self->age);
-        }
-        objectsetup(Animal)(Animal *result) {
-            result->self = result;
-            result->age = 0;
-            objectfn_setup(result, Animal, info);
-        }
-
-// Create object dog
-object Dog {
-    self(Dog);
-    inherit(Animal); // It inherits from animal
-    objectfn_pointer(Dog, bark, void)(selftype Dog *self);
-} Dog;
-        objectfn(Dog, bark, void)(Dog *self) {
-            // Example of accessing inherited fields
-            printf("Woof, im %i\n", self->inherited->age);
-        }
-
-        // Overwrite info function
-        // Just create a function for Dog with any name that isnt conflicting with already defined fields
-        objectfn(Dog, inherited_info, void)(Animal *self) {
-            printf("Im a Dog of age %i\n", self->age);
-        }
-
-        objectsetup(Dog)(Dog *result) {
-            // Setup object
-            result->self = result;
-            objectfn_setup(result, Dog, bark);
-
-            // Setup inheritance
-            // result->inherited is a pointer
-            inherit_setup(result->inherited, Animal)(result->inherited);
-
-            // Overwrite info function
-            result->inherited->info = objectfn_name(Dog, inherited_info);
-        }
-
-int main() {
-    Animal animal init(Animal)(&animal);
-    animal.age = 4;
-    animal.info(animal.self);
-
-    Dog dog init(Dog)(&dog);
-    // Accessing inherited fields
-    dog.inherited->age = 2;
-
-    dog.bark(dog.self);
-
-    // Accessing Inherited functions
-    dog.inherited->info(dog.inherited->self);
-    return 0;
+objectsetup([Object Name])([Object Name] *result, [Additional Arguments if needed]) {
+	// Set self to its correct value
+	setupself(result);
 }
 ```
-## [namespace.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/namespace.h)
-Requirements:
-- [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
+## Adding fields
 
-**I) Creating a namespace, adding fields and functions**
+**Note: you can only assign default values in `objectsetup`**
+You add a field how you would a variable:
+
 ```c
-#include "../inc/cplus.h"
-#include <stdio.h>
+// replace 'Name' with your objects name
 
-// Create the math namespace
-namespace math_namespace {
-    float pi; // Add field 'pi'
-    namespacefn_pointer(add, int); // Add function 'add'
-} math_namespace;
+object Name {
+	// Initialize itself
+	self(Name);
 
-// Define the function add
-namespacefn(math_namespace, add, int)(int a, int b) {
-    return a + b;
-}
+	// Create a field
+	int field;
+} Name;
 
-// Define the math namespace for use
-namespace_create(math_namespace, math) {
-    .pi = 3.14, // Setup value for 'pi'
-    .add = namespacefn_name(math_namespace, add) // Link 'add' function
-};
+// This function is called on each instance initialized of 'Name'
+objectsetup(Name)(Name *result) {
+	// Set self to its correct value
+	setupself(result);
 
-int main() {
-    printf("%i\n", math.add(2, 3)); // Use the namespace
-    return 0;
+	// You can define the default value of fields here
+	result->field = 42;
 }
 ```
 
-**Note: Objects in namespaces require additional setup**  
+## Adding functions
+
+**Note: if you don't link your functions properly in `objectsetup` it might lead to unexpected behaviour**
+To add a function you need to set up a pointer:
+
 ```c
-#include "../inc/cplus.h"
-#include <stdio.h>
+// replace 'Name' with your objects name
 
-// Create the object
-object Object {
-    self(Object); // Initialise 'self' field
-    int field; // Initialise 'field' field
-    objectfn_pointer(Object, changeField, void); // Add function pointer
-} Object;
+object Name {
+	// Initialize itself
+	self(Name);
 
-// Define the function
-objectfn(Object, changeField, void)(Object self, int newField) {
-    self.field = newField;
+	// Create a field
+	int field;
+
+	// Setup a function pointer
+	objectfn_pointer(Name, myFunction, void)(selftype Name *self);
+} Name;
+
+objectfn(Name, myFunction, void)(Name *self) {
+	// Use '->' since self is a pointer
+	self->field = 42;
 }
 
-// Define what values has initialised object
-objectsetup(Object)(Object *result, int field) {
-    result->self = result; // Add this or 'self' won't work
-    result->field = field; // Initialise 'field' value
-    objectfn_setup(result, Object, changeField); // Link function
+// This function is called on each instance initialized of 'Name'
+objectsetup(Name)(Name *result) {
+	// Set self to its correct value
+	setupself(result);
+
+	// Link the function
+	objectfn_setup(result, Name, myFunction);
 }
 
-// Create a namespace
-namespace NAMESPACE {
-    Object obj; // Object as a field
-} NAMESPACE;
+```
 
-// Create the namespace for use
-namespace_create(NAMESPACE, ns) {
-    .obj = 0 // Placeholder value of 0
-};
+Understanding `objectfn_pointer`:
 
-int main() {
-    // Initialise the object instance inside of namespace ns
-    init(Object)(&ns.obj, 4);
+```c
+// objectfn_pointer usage:
+// (use in the same object as 'Object Name')
 
-    // Operations using the object instance
-    printf("%i\n", ns.obj.field);
-    
-    ns.obj.changeField(ns.obj.self, 5);
-    printf("%i\n", ns.obj.field);
-    
-    ns.obj.field--;
-    printf("%i\n", ns.obj.field);
-    
-    return 0;
+objectfn_pointer([Object Name], [Function Name], [Return Type])(selftype [Object Name] *self, [More Arguments of the Function]);
+```
+
+- What is `selftype`?
+- `selftype` is a requirement when referencing object as a type inside of the objects definition. For example:
+
+```c
+object SomeObject {
+	self(SomeObject);	
+
+	// Here selftype is needed as we are in SomeObjects definition
+	objectfn_pointer(SomeObject, SomeFunction, void)(selftype SomeObject *self);
+} SomeObject;
+
+// Here selftype is not needed
+objectfn(SomeObject, SomeFunction, void)(SomeObject *self) {
+	// Do something
 }
 ```
 
-## [string.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/string.h)
-Requirements:  
-- [oop.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/oop.h)
-- <stdlib.h> or malloc definition included into [malloc.h](https://github.com/wwidlishy/CPLUS/blob/main/cplus/externals/malloc.h)
-  
-**I) Create a new string and initialize it**
+Understanding `objectfn`
+
 ```c
-string text init(string)(&text, "Hello, world!");
-```
-**II) Change the value**
-```c
-string text init(string)(&text, "Hello, world!");
-text.set(text.self, "laurum eum epsilon or whatever that fucking latin text was");
-```
-**III) Getting the value**
-```c
-string text init(string)(&text, "Hello, world!");
-printf(text.value);
-```
-**IV) Getting the lenght**
-```c
-string text init(string)(&text, "Hello, world!");
-printf("%i\n", text.len(text.self));
-```
+// A function definition
 
-**V) Counting a specific char**
-```c
-string text init(string)(&text, "Hello, world!");
-printf("%llu\n", text.count_char(text.self, 'o'));
-```
+objectfn([Object Name], [Function Name], [Return Type])([Object Name] *self, [Additional Arguments if needed]) {
+	How to access a field?
+	Since self is a pointer you can use:
+		self->[Field Name]
 
-## master example
-```c
-#include "path/to/cplus.h"
-#include <stdio.h>
-
-object point {
-    self(point);
-
-    string name;
-    float x;
-    float y;
-
-    objectfn_pointer(point, shift, void)(selftype point *self, float x, float y);
-    objectfn_pointer(point, shift_by, void)(selftype point *self, float x, float y);
-    objectfn_pointer(point, scale, void)(selftype point *self, float scalar);
-    objectfn_pointer(point, print, void)(selftype point *self);
-
-} point;
-        objectfn(point, shift, void)(point *self, float x, float y) {
-            self->x = x;
-            self->y = y;
-        }
-
-        objectfn(point, shift_by, void)(point *self, float x, float y) {
-            self->x += x;
-            self->y += y;
-        }
-
-        objectfn(point, scale, void)(point *self, float scalar) {
-            self->x *= scalar;
-            self->y *= scalar;
-        }
-
-        objectfn(point, print, void)(point *self) {
-            printf("%s: (%f, %f)\n", self->name.value, self->x, self->y);
-        }
-
-        objectsetup(point)(point *result, char *name, float x, float y) {
-            result->self = result;
-
-            init(string)(&result->name, name);
-            result->x = x;
-            result->y = y;
-
-            objectfn_setup(result, point, shift);
-            objectfn_setup(result, point, shift_by);
-            objectfn_setup(result, point, scale);
-            objectfn_setup(result, point, print);
-        }
-
-namespace POINT_UTILS {
-    namespacefn_pointer(add, point);
-} POINT_UTILS;
-    namespacefn(POINT_UTILS, add, point)(char *name, point a, point b) {
-        point result init(point)(&result, name, a.x + b.x, a.y + b.y);
-        return result;
-    }
-    namespace_create(POINT_UTILS, point_utils) {
-        .add = namespacefn_name(POINT_UTILS, add)
-    };
-
-int main() {
-    point a init(point)(&a, "Point A", 3, 2);
-    a.shift_by(a.self, -1, 1);
-    a.print(a.self);
-
-    point b init(point)(&b, "Point B", 4, 1);
-    b.scale(b.self, 2);
-    b.print(b.self);
-
-    point c = point_utils.add("Point C", a, b);
-    c.print(c.self);
-
-    return 0;
+	How to call a function?
+	Since self is a pointer you can use:
+		self->[Function Name](self, [Function Arguments])
 }
+
+```
+
+Understanding `objectfn_setup`
+
+```c
+// Inside of 'objectsetup' you need to link your function else risk unexpected behaviour
+
+objectsetup([Object Name])([Object Name] *result) {
+	setupself([Object Name]);
+	// Link the function
+	objectfn_setup(result, [Object Name], [Function Name]);
+}
+
+```
+## Inheritance
+
+**Note: inheritance is a pointer to an instance of inherited class, access it using the `inherited` field**
+
+```c
+// Create Base Object 'Fruit'
+
+object Fruit {
+	// Initialize 'self' field
+    self(Fruit);
+
+	// Initialize 'name' field
+    char *name;
+
+} Fruit;
+
+// Setup 'Fruit'
+objectsetup(Fruit))(Fruit *result) {
+	setupself(Fruit);
+}
+
+// Create Object 'Banana' which inherits from 'Fruit'
+object Banana {
+	// Initialize 'self' field
+    self(Banana);
+
+	// Inherit from 'Fruit'
+    inherit(Fruit);
+
+} Banana;
+
+// Setup 'Banana'
+objectsetup(Banana))(Banana *result) {
+	setupself(Banana);
+
+	// Initialize object from which we are inheriting.
+	inherit_setup(result, Fruit);
+}
+
 ```
