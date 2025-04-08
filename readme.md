@@ -8,36 +8,36 @@ The library is easy to port for embedded systems as all you need to do is provid
 ---
 # Table of contents
 
-1. Object Oriented Programming
-	1. [Defining objects](#defining-objects)
-	2. Adding fields
-	3. Adding functions
-	4. Inheritance
-	5. Creating instances
-2. Namespaces
-	1. Creating namespace base
-	2. Adding fields
-	3. Adding functions
-	4. Adding instances of objects
-	5. **Namespace initializer, `namespace_create`**
-	6. Using the namespace
-3. Strings
-	1. Initializing a string
-	2. Accessing string value
-	3. `string.len()`
-	4. `string.set()`
-	5. `string.count_char()`
-4. Arrays
-	1. Initializing an array
-	2. Iterating trough an array
-	3. Getting the value at an index
-	4. `array.set()`
-	5. `array.append()`
-	6. `array.find()`
-	7. `array.insert()`
-	8. `array.insert_elements()`
-	9. `array.subarr()`
-	10. `array.remove()`
+1. Object Oriented Programming  
+	‎ 1. [Defining objects](#defining-objects)  
+	‎ 2. Adding fields  
+	‎ 3. Adding functions  
+	‎ 4. Inheritance  
+	‎ 5. Creating instances  
+2. Namespaces  
+	‎ 1. Creating namespace base  
+	‎ 2. Adding fields  
+	‎ 3. Adding functions  
+	‎ 4. Adding instances of objects  
+	‎ 5. **Namespace initializer, `namespace_create`**  
+	‎ 6. Using the namespace  
+3. Strings  
+	‎ 1. Initializing a string  
+	‎ 2. Accessing string value  
+	‎ 3. `string.len()`  
+	‎ 4. `string.set()`  
+	‎ 5. `string.count_char()`  
+4. Arrays  
+	‎ 1. Initializing an array  
+	‎ 2. Iterating trough an array  
+	‎ 3. Getting the value at an index  
+	‎ 4. `array.set()`  
+	‎ 5. `array.append()`  
+	‎ 6. `array.find()`  
+	‎ 7. `array.insert()`  
+	‎ 8. `array.insert_elements()`  
+	‎ 9. `array.subarr()`  
+	‎ 10. `array.remove()`  
 
 ---
 # Object Oriented Programming
