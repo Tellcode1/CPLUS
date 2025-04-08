@@ -11,3 +11,5 @@
 #define inherit_setup(instance, objectfrom) init(objectfrom)
 #define objectfn_name(objname, fnname) objname##_##fnname
 #define selftype struct
+#define initself(instance) ;instance.self = &instance
+#define setupself(instance) instance->self = instance
