@@ -1,6 +1,6 @@
 # CPLUS - A C library implementing higher level abstraction
 
-**While there is `readme.old.md` in this repository refer if content here is missing**  
+**While there is `readme.old.md` in this repository refer to if content here is missing**  
 **Documentation under construction**
 
 This project aims to supply its users with high level abstractions, such as OOP, string, namespaces and arrays.  
