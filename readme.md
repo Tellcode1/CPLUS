@@ -66,13 +66,15 @@ objectsetup(Name)(Name *result) {
 Understanding `objectsetup`:
 
 ```c
-// This function is called on each instance initialized of [Object Name]
-// In this function all the 'magic' behind OOP happens
+// This function is called for each initialized instance of ObjectName.
+// It handles the core setup logic related to Object-Oriented Programming (OOP).
+// You can add more parameters after 'result' if needed.
 
-objectsetup([Object Name])([Object Name] *result, [Additional Arguments if needed]) {
-	// Set self to its correct value
-	setupself(result);
+objectsetup(ObjectName)(ObjectName *result) {
+    // Set 'self' to point to this instance
+    setupself(result);
 }
+
 ```
 
 ## Adding fields
@@ -140,9 +142,11 @@ Understanding `objectfn_pointer`:
 
 ```c
 // objectfn_pointer usage:
-// (use in the same object as 'Object Name')
+// (use in ObjectName)
+// Use when you wanna add an objectfn
+// Add more arguments if needed
 
-objectfn_pointer([Object Name], [Function Name], [Return Type])(selftype [Object Name] *self, [More Arguments of the Function]);
+objectfn_pointer(ObjectName, FunctionName, ReturnType)(selftype ObjectName *self);
 ```
 
 - What is `selftype`?  
@@ -166,15 +170,18 @@ Understanding `objectfn`
 
 ```c
 // A function definition
+// You can add more perameters after 'result'
+// Make sure they line up with objectfn_pointer
 
-objectfn([Object Name], [Function Name], [Return Type])([Object Name] *self, [Additional Arguments if needed]) {
-	How to access a field?
-	Since self is a pointer you can use:
-		self->[Field Name]
+objectfn(ObjectName, FunctionName, ReturnType)(ObjectName *self) {
+ //	How to access a field?
+	// Since self is a pointer you can use:
+		self->FieldName
 
-	How to call a function?
-	Since self is a pointer you can use:
-		self->[Function Name](self, [Function Arguments])
+	// How to call a function?
+	// Since self is a pointer you can use:
+ // Replace ... with parameters
+		self->FunctionName(self, ...)
 }
 
 ```
