@@ -65,15 +65,16 @@ objectsetup(Name)(Name *result) {
 
 Understanding `objectsetup`:
 
-```cpp
-// This function is called on each instance initialized of ObjectName
-// In this function all the 'magic' behind OOP happens
-// You can also add more arguments after result if needed
+```c
+// This function is called for each initialized instance of ObjectName.
+// It handles the core setup logic related to Object-Oriented Programming (OOP).
+// You can add more parameters after 'result' if needed.
 
 objectsetup(ObjectName)(ObjectName *result) {
-	// Set self to its correct value
-	setupself(result);
+    // Set 'self' to point to this instance
+    setupself(result);
 }
+
 ```
 ## Adding fields
 
