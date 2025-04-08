@@ -169,15 +169,18 @@ Understanding `objectfn`
 
 ```c
 // A function definition
+// You can add more perameters after 'result'
+// Make sure they line up with objectfn_pointer
 
-objectfn([Object Name], [Function Name], [Return Type])([Object Name] *self, [Additional Arguments if needed]) {
-	How to access a field?
-	Since self is a pointer you can use:
-		self->[Field Name]
+objectfn(ObjectName, FunctionName, ReturnType)(ObjectName *self) {
+ //	How to access a field?
+	// Since self is a pointer you can use:
+		self->FieldName
 
-	How to call a function?
-	Since self is a pointer you can use:
-		self->[Function Name](self, [Function Arguments])
+	// How to call a function?
+	// Since self is a pointer you can use:
+ // Replace ... with parameters
+		self->FunctionName(self, ...)
 }
 
 ```
