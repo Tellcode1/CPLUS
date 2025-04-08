@@ -207,7 +207,7 @@ object Fruit {
 } Fruit;
 
 // Setup 'Fruit'
-objectsetup(Fruit))(Fruit *result) {
+objectsetup(Fruit)(Fruit *result) {
 	setupself(Fruit);
 }
 
@@ -222,7 +222,7 @@ object Banana {
 } Banana;
 
 // Setup 'Banana'
-objectsetup(Banana))(Banana *result) {
+objectsetup(Banana)(Banana *result) {
 	setupself(Banana);
 
 	// Initialize object from which we are inheriting.
