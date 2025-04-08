@@ -9,7 +9,7 @@ The library is easy to port for embedded systems as all you need to do is provid
 # Table of contents
 
 1. Object Oriented Programming
-	1. Defining objects [Defining objects](#defining-objects)
+	1. [Defining objects](#defining-objects)
 	2. Adding fields
 	3. Adding functions
 	4. Inheritance
