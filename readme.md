@@ -217,7 +217,7 @@ object Fruit {
 
 // Setup 'Fruit'
 objectsetup(Fruit)(Fruit *result) {
-	setupself(Fruit);
+	setupself(result);
 }
 
 // Create Object 'Banana' which inherits from 'Fruit'
@@ -232,7 +232,7 @@ object Banana {
 
 // Setup 'Banana'
 objectsetup(Banana)(Banana *result) {
-	setupself(Banana);
+	setupself(result);
 
 	// Initialize object from which we are inheriting.
 	inherit_setup(result, Fruit);
