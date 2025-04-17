@@ -3,16 +3,16 @@
 #include "overridables.h"
 #include "types.h"
 
-#define foreach(cp_array, index, type) for (size_t(index) = 0; (index) < cp_array.size / sizeof(type); (index)++)
-#define foreachptr(cp_array, index) for (size_t(index) = 0; (index) < cp_array->size / cp_array->element_size; (index)++)
+#define cp_array_for_each(array, index, type) for (size_t(index) = 0; (index) < array.size / sizeof(type); (index)++)
+#define cp_array_for_each_ptr(array, index) for (size_t(index) = 0; (index) < array->size / array->element_size; (index)++)
 
-#define array_get(cp_array, index, type) ((type*)cp_array.data)[index]
-#define array_getptr(cp_array, index, type) ((type*)cp_array->data)[index]
-#define array_element(element, type)                                                                                                                 \
+#define cp_array_get(array, index, type) ((type*)array.data)[index]
+#define cp_array_get_ptr(array, index, type) ((type*)array->data)[index]
+#define cp_array_element(element, type)                                                                                                              \
     (type[]) { element }
-#define array_elements(type, ...)                                                                                                                    \
+#define cp_array_elements(type, ...)                                                                                                                 \
     (type[]) { __VA_ARGS__ }
-#define array_elements_size(cp_array, type) (sizeof(cp_array) / sizeof(type))
+#define cp_array_elements_size(array, type) (sizeof(array) / sizeof(type))
 
 object cp_array
 {
@@ -42,7 +42,7 @@ objectfn(cp_array, set, void)(cp_array* self, void* data, size_t size)
 {
     if (self->data != NULL) { cp_free(self->data); }
 
-    self->data = (void*)malloc(size);
+    self->data = (void*)cp_calloc(size);
     self->size = size;
     cp_memcpy(self->data, data, size);
 }
@@ -51,14 +51,14 @@ objectfn(cp_array, len, size_t)(selftype cp_array* self)
 {
     size_t result = 0;
 
-    foreachptr(self, i) result++;
+    cp_array_for_each_ptr(self, i) result++;
 
     return result;
 }
 
 objectfn(cp_array, append, void)(cp_array* self, void* element)
 {
-    void* new_data = malloc(self->size + self->element_size);
+    void* new_data = cp_calloc(self->size + self->element_size);
     if (new_data == NULL) { return; }
 
     if (self->data != NULL)
@@ -89,9 +89,11 @@ objectfn(cp_array, find, cp_array)(cp_array* self, void* element)
     {
         if (cp_memcmp((char*)self->data + i * self->element_size, element, self->element_size) == 0)
         {
-            result.append(result.self, array_element(i, size_t));
+            /* Append the index where we found it to the list */
+            result.append(result.self, cp_array_element(i, size_t));
         }
     }
+    /* Return the list containing the indices of every element in self that is equal to element */
     return result;
 }
 
@@ -167,36 +169,36 @@ objectfn(cp_array, subarr, cp_array)(selftype cp_array* self, i64 start, i64 fin
 
 objectfn(cp_array, remove, void)(cp_array* self, size_t index)
 {
-    if (index < 0 || index >= self->size / self->element_size)
+    if (index >= (self->size / self->element_size))
     {
         // Index is out of bounds, return or handle error.
         return;
     }
 
-    // Create new memory for the cp_array with one less element
-    void* newData = malloc(self->size - self->element_size);
+    // Create new memory for the array with one less element
+    void* newData = cp_calloc(self->size - self->element_size);
     if (newData == NULL)
     {
-        // malloc failed
+        // alloc failed
         return;
     }
 
-    // Copy elements before the index to the new cp_array
+    // Copy elements before the index to the new array
     cp_memcpy(newData, self->data, index * self->element_size);
 
-    // Copy elements after the index to the new cp_array
+    // Copy elements after the index to the new array
     cp_memcpy(
         (char*)newData + index * self->element_size,
         (char*)self->data + (index + 1) * self->element_size,
         (self->size - (index + 1) * self->element_size));
 
-    // cp_free the old data
+    // free the old data
     cp_free(self->data);
 
-    // Update the data pointer to the new cp_array
+    // Update the data pointer to the new array
     self->data = newData;
 
-    // Reduce the size of the cp_array by one element
+    // Reduce the size of the array by one element
     self->size -= self->element_size;
 }
 

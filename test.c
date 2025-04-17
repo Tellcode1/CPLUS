@@ -16,7 +16,7 @@ main(int argc, char* argv[])
 
     char   ch    = 'l';
     size_t count = string.count_char(string.self, ch);
-    printf("Count of '%c' in \"%s\": %zu\n", ch, strval(string), count);
+    printf("Count of '%c' in \"%s\": %zu\n", ch, cp_strval(string), count);
 
     const char* new_test_c_string = "Goodbye world.";
     string.set(string.self, strdup(new_test_c_string));

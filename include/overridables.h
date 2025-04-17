@@ -5,6 +5,7 @@
  * This is because stdlib will 99.9% be included in the files before here
  */
 #include <stdlib.h>
+#include <string.h>
 
 /* calloc but takes in only one argument */
 static inline void*
@@ -47,6 +48,10 @@ _unstupidify_calloc(size_t size)
 #  define cp_memcpy _cp_default_memcpy
 #endif
 
+#ifndef c_strdup
+#  define cp_strdup _cp_default_strdup
+#endif
+
 void*
 _cp_default_memcpy(void* dest, const void* src, size_t n)
 {
@@ -72,4 +77,16 @@ _cp_default_memcmp(const void* s1, const void* s2, size_t n)
         if (a[i] != b[i]) { return (int)(a[i] - b[i]); }
     }
     return 0;
+}
+
+char*
+_cp_default_strdup(const char* src)
+{
+    if (src == NULL) { return NULL; }
+
+    const size_t src_length = strlen(src);
+    char*        new_string = (char*)cp_calloc(src_length + 1);
+    strcpy(new_string, src);
+    new_string[src_length] = '\0';
+    return new_string;
 }
