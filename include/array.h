@@ -3,6 +3,17 @@
 #include "overridables.h"
 #include "types.h"
 
+#ifndef CPLUS_TYPEOF
+#  if defined(__GNUC__) || defined(__clang__)
+#    define CPLUS_TYPEOF(x) __typeof__(x)
+#  elif defined(_MSC_VER)
+#    define CPLUS_TYPEOF(x) decltype(x)
+#  else
+#    pragma message("CPLUS_TYPEOF not available")
+#    define CPLUS_TYPEOF(x)
+#  endif
+#endif
+
 #define cp_array_for_each(array, index, type) for (size_t(index) = 0; (index) < array.size / sizeof(type); (index)++)
 #define cp_array_for_each_ptr(array, index) for (size_t(index) = 0; (index) < array->size / array->element_size; (index)++)
 
@@ -12,7 +23,18 @@
     (type[]) { element }
 #define cp_array_elements(type, ...)                                                                                                                 \
     (type[]) { __VA_ARGS__ }
-#define cp_array_elements_size(array, type) (sizeof(array) / sizeof(type))
+
+/*
+ * GNUC and builtin have protection from accidentally passing in pointers instead of stack arrays
+ */
+#if defined(__GNUC__) && (__STDC_VERSION__ >= 201112L) && defined(CPLUS_TYPEOF)
+#  define cp_array_elements_size(arr, type) _Generic(&(arr), CPLUS_TYPEOF(*(arr))(*): 0, default: (sizeof(arr) / sizeof(type)))
+#elif defined(__has_builtin) && __has_builtin(__builtin_choose_expr) && __has_builtin(__builtin_types_compatible_p) && defined(NV_TYPEOF)
+#  define cp_array_elements_size(arr, type)                                                                                                          \
+      __builtin_choose_expr(__builtin_types_compatible_p(CPLUS_TYPEOF(arr), type), 0, (sizeof(arr) / sizeof(type)))
+#else
+#  define cp_array_elements_size(arr, type) ((size_t)(sizeof(arr) / sizeof(type)
+#endif
 
 object cp_array
 {
